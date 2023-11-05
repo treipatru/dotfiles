@@ -48,8 +48,6 @@
     wordRegex = .
 [format]
     pretty = format:%C(yellow)%h %Cblue%>(12)%ad %Cgreen%<(7)%aN%Cred%d %Creset%s
-[include]
-    path = ~/.gitconfig.local
 [interactive]
     diffFilter = delta --color-only --features=interactive
 [log]
