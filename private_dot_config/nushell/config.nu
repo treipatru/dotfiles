@@ -811,6 +811,7 @@ $env.config = {
 }
 
 alias cat = bat
+alias cz = chezmoi
 alias pn = pnpm
 alias g = git
 alias v = nvim
