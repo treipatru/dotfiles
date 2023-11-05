@@ -1,0 +1,63 @@
+{{ if eq .chezmoi.osRelease.id "fedora" -}}
+#!/bin/sh
+
+# Speed up dnf
+printf ">>> Checking dnf for speed improvements\n"
+if ! grep -q -F "max_parallel_downloads" "/etc/dnf/dnf.conf"; then
+    printf "  * Increase max parallel downloads\n"
+    printf "max_parallel_downloads=15\n" | sudo tee -a /etc/dnf/dnf.conf
+fi
+
+if ! grep -q -F "fastestMirror" "/etc/dnf/dnf.conf"; then
+    printf "  * Choose fastest mirror\n"
+    printf "fastestMirror=true\n" | sudo tee -a /etc/dnf/dnf.conf
+fi
+
+# Upgrade
+printf "\n>>> Upgrading system packages\n"
+sudo dnf --assumeyes upgrade
+
+# Install packages
+printf "\n>>> Installing packages\n"
+sudo dnf install --assumeyes \
+    bat \
+    curl \
+    git-delta \
+    fd-find \
+    file-roller \
+    flameshot \
+    fzf \
+    gcc \
+    gcc-c++ \
+    gcc \
+    git \
+    google-noto-emoji-fonts \
+    kitty \
+    neovim \
+    openssl \
+    openssl-devel \
+    ranger \
+    ripgrep \
+    tldr \
+    zsh \
+    zoxide
+
+# Install rust
+printf "\n>>> Installing rust\n"
+curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh -s -- -y
+
+# Install rust packages
+printf "\n>>> Installing cargo packages\n"
+cargo install --locked pueue
+cargo install nu
+
+## cargo install fnm
+printf "\n>>> Installing latest node \n"
+fnm install --latest
+
+
+{{ else if eq .chezmoi.osRelease.id "manjaro" -}}
+#!/bin/sh
+echo manjaro
+
+{{ end -}}
