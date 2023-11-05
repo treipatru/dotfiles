@@ -1,0 +1,8 @@
+.netrwhist
+.uuid
+.netrwbook
+
+history.txt
+history.sqlite*
+
+private_dot_config/nvim/plugin/**/*
