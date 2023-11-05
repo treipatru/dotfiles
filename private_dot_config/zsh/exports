@@ -1,0 +1,52 @@
+# ZSH settings
+export EDITOR=/usr/bin/nvim
+export HISTCONTROL=ignoredups
+export HISTFILE="$HOME/.history"
+export HISTSIZE=500000
+export SAVEHIST=$HISTSIZE
+export TERM="xterm-256color"
+export HISTORY_IGNORE="(cd|g|gs|l|ls|man|mkdir|mv|rm|v|which)*"
+
+# External config files
+export BAT_CONFIG_PATH=$HOME/.config/bat/config
+export PATH=$PATH:$HOME/.config/rofi/scripts
+export RIPGREP_CONFIG_PATH="$HOME/.config/rg/ripgreprc"
+export STARSHIP_CONFIG=~/.config/starship/starship.toml
+export RIPGREP_CONFIG_PATH=~/.config/rg/ripgreprc
+
+# XDG paths
+GRIM_DEFAULT_DIR="$HOME/tmp"
+XDG_DESKTOP_DIR="$HOME/"
+XDG_DOCUMENTS_DIR="$HOME/tmp"
+XDG_DOWNLOAD_DIR="$HOME/tmp"
+XDG_MUSIC_DIR="$HOME/music"
+XDG_PICTURES_DIR="$HOME/images"
+XDG_TEMPLATES_DIR="$HOME/"
+XDG_VIDEOS_DIR="$HOME/videos"
+
+# PATHs
+export PATH="$PATH:$HOME/.cargo/bin"
+export PATH="$PATH:$HOME/.local/bin"
+export PATH="$PATH:$HOME/.local/bin/kubectl"
+export PATH="$PATH:$HOME/bin"
+export PATH="$PATH:$HOME/go/bin"
+export PATH="$PATH:$HOME/repos/gff/bin"
+
+# 1pass SSH agent
+export SSH_AUTH_SOCK=~/.1password/agent.sock
+
+# NVM
+export NVM_DIR="$HOME/.nvm"
+[ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"  # This loads nvm
+[ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion"  # This loads nvm bash_completion
+
+# PNPM
+export PNPM_HOME="$HOME/.local/share/pnpm"
+case ":$PATH:" in
+  *":$PNPM_HOME:"*) ;;
+  *) export PATH="$PNPM_HOME:$PATH" ;;
+esac
+
+# Fly.io
+export FLYCTL_INSTALL="$HOME/.fly"
+export PATH="$FLYCTL_INSTALL/bin:$PATH"

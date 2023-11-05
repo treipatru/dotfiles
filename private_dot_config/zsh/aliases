@@ -1,0 +1,8 @@
+alias cat="bat"
+alias g="git"
+alias l="eza"
+alias v="nvim"
+alias vim="nvim"
+alias t="tmux"
+alias ta="tmux attach"
+alias r="ranger"
