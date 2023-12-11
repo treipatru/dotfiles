@@ -845,7 +845,7 @@ def tswitch [] {
 
 use ~/.cache/starship/init.nu
 
-# source ~/.cache/carapace/init.nu
+source ~/.cache/carapace/init.nu
 source ~/.config/nushell/scripts/starship.nu
 
 

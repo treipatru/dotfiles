@@ -12,8 +12,9 @@ zplug "zsh-users/zsh-syntax-highlighting"
 zplug "g-plane/pnpm-shell-completion", hook-build:"./zplug.zsh", defer:2
 zplug "zsh-users/zsh-completions"
 zplug "z-shell/zsh-navigation-tools"
+zplug "jeffreytse/zsh-vi-mode"
 
-zplug "zsh-users/zsh-history-substring-search"
+zplug "zsh-users/zsh-history-substring-search", as: plugin
 bindkey '^[[A' history-substring-search-up
 bindkey '^[[B' history-substring-search-down
 bindkey '^P' history-substring-search-up

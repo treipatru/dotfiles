@@ -25,10 +25,9 @@ source $ZSH_CFG/fzf.zsh
 # Plugins
 source $ZSH_CFG/zplug
 
-source /usr/share/nvm/init-nvm.sh
-
 # Startup
 autoload -U compinit; compinit
+eval "$(fnm env --use-on-cd)"
 eval "$(starship init zsh)"
 eval "$(zoxide init zsh)"
 
