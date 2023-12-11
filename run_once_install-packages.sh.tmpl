@@ -23,6 +23,7 @@ sudo dnf install --assumeyes \
     bat \
     btop \
     curl \
+    eza \
     git-delta \
     fd-find \
     file-roller \
@@ -46,13 +47,22 @@ sudo dnf install --assumeyes \
 # Install rust
 printf "\n>>> Installing rust\n"
 curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh -s -- -y
+source ~/.cargo/env
 
 # Install rust packages
 printf "\n>>> Installing cargo packages\n"
-cargo install --locked pueue
-cargo install nu
 
-## cargo install fnm
+# Updated for cargo binaries
+cargo install cargo-update
+# Job manager
+cargo install --locked pueue
+# Shell
+cargo install nu
+# Node version manager
+cargo install fnm
+# Terminal prompt
+cargo install starship --locked
+
 printf "\n>>> Installing latest node \n"
 fnm install --latest
 
