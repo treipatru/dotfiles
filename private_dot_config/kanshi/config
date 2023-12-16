@@ -1,0 +1,8 @@
+profile {
+	output eDP-1 disable
+	output "GIGA-BYTE TECHNOLOGY CO., LTD. M34WQ 0x00001137" mode 3440x1440 position 0,0
+}
+
+profile {
+	output eDP-1 enable scale 1.3
+}

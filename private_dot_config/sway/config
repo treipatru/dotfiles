@@ -17,7 +17,7 @@ set $right l
 set $term kitty
 set $menu ~/.config/rofi/launchers/type-2/launcher.sh
 
-for_window [class="Code"] opacity 0.9
+# for_window [class="Code"] opacity 0.9
 # for_window [app_id=".*"] opacity $opacity
 
 # Your preferred application launcher
@@ -58,6 +58,7 @@ smart_gaps off
 # Default wallpaper (more resolutions are available in /usr/share/backgrounds/sway/)
 # Requires: desktop-backgrounds-compat, swaybg
 output * bg ~/Pictures/wall.jpg fill
+
 #
 # Example configuration:
 #
@@ -263,3 +264,5 @@ bindsym $mod+r mode "resize"
 # the trick, it's all in the `wordexp(3)`.
 #
 include '$(/usr/libexec/sway/layered-include "/usr/share/sway/config.d/*.conf" "/etc/sway/config.d/*.conf" "${XDG_CONFIG_HOME:-$HOME/.config}/sway/config.d/*.conf")'
+
+exec_always "systemctl --user restart kanshi.service"
