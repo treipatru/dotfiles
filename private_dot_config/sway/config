@@ -57,7 +57,7 @@ smart_gaps off
 #
 # Default wallpaper (more resolutions are available in /usr/share/backgrounds/sway/)
 # Requires: desktop-backgrounds-compat, swaybg
-output * bg ~/Pictures/wall.jpg fill
+output * bg ~/Pictures/wall.webp fill
 
 #
 # Example configuration:
@@ -266,5 +266,5 @@ bindsym $mod+r mode "resize"
 include '$(/usr/libexec/sway/layered-include "/usr/share/sway/config.d/*.conf" "/etc/sway/config.d/*.conf" "${XDG_CONFIG_HOME:-$HOME/.config}/sway/config.d/*.conf")'
 
 exec_always "systemctl --user restart kanshi.service"
-exec pkill dunst && dunst
+exec dunst
 exec 1password
