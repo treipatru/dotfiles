@@ -17,6 +17,10 @@
     ignore-revs-file = .git-blame-ignore-revs
     mark-ignored-lines = true
     mark-unblamable-lines = true
+[color "status"]
+    added = green
+    changed = yellow
+    untracked = red
 [core]
     autocrlf = input
     editor = nvim
@@ -48,6 +52,10 @@
     wordRegex = .
 [format]
     pretty = format:%C(yellow)%h %Cblue%>(12)%ad %Cgreen%<(7)%aN%Cred%d %Creset%s
+[include]
+    path = .gitconfig.local
+[init]
+    defaultBranch = main
 [interactive]
     diffFilter = delta --color-only --features=interactive
 [log]
@@ -62,9 +70,3 @@
 [push]
     default = current
 	autoSetupRemote = true
-[color "status"]
-    added = green
-    changed = yellow
-    untracked = red
-[init]
-	defaultBranch = main
