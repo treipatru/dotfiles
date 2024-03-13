@@ -42,12 +42,14 @@ case ":$PATH:" in
   *) export PATH="$PNPM_HOME:$PATH" ;;
 esac
 
-# Fly.io
-export FLYCTL_INSTALL="$HOME/.fly"
-export PATH="$FLYCTL_INSTALL/bin:$PATH"
-
 # NNN
 export NNN_FIFO=/tmp/nnn.fifo
 export NNN_BMS="d:$HOME/Downloads;"
 
-export PAGER=“less”
+# ROFI
+export ROFI_THEME="~/.config/rofi/theme-spotlight.rasi"
+export ROFI_CONFIG="~/.config/rofi/themes/config.rasi"
+
+export PAGER="bat --style=plain"
+
+export ELECTRON_OZONE_PLATFORM_HINT="wayland"
