@@ -35,11 +35,6 @@ export PATH="$PATH:$HOME/repos/gff/bin"
 # 1pass SSH agent
 export SSH_AUTH_SOCK=~/.1password/agent.sock
 
-# NVM
-export NVM_DIR="$HOME/.nvm"
-[ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"  # This loads nvm
-[ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion"  # This loads nvm bash_completion
-
 # PNPM
 export PNPM_HOME="$HOME/.local/share/pnpm"
 case ":$PATH:" in
@@ -50,3 +45,9 @@ esac
 # Fly.io
 export FLYCTL_INSTALL="$HOME/.fly"
 export PATH="$FLYCTL_INSTALL/bin:$PATH"
+
+# NNN
+export NNN_FIFO=/tmp/nnn.fifo
+export NNN_BMS="d:$HOME/Downloads;"
+
+export PAGER=“less”
