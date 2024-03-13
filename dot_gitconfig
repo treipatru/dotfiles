@@ -70,3 +70,6 @@
 [push]
     default = current
 	autoSetupRemote = true
+[rerere]
+	enabled = true
+	autoUpdate = true
