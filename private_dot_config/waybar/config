@@ -1,28 +1,131 @@
 {
-    "position": "top", // Waybar position (top|bottom|left|right)
-    "height": 30,      // Waybar height (to be removed for auto height)
-    "spacing": 0,      // Gaps between modules
-
+    "position": "top",
+    // "height": 30,
+    "spacing": 0,
     "modules-left": [
-        "sway/workspaces",
         "sway/mode",
     ],
-
     "modules-center": [
-        "cpu",
-        "temperature",
-        "memory",
-        "network",
-        "battery",
-    ],
-
-    "modules-right": [
-        "idle_inhibitor",
+        "sway/workspaces",
+        "clock",
+        "mpris",
         "pulseaudio",
-        "tray",
-        "clock"
+        "idle_inhibitor",
+        "network",
+        "bluetooth",
+        "custom/dnf",
+        "battery"
     ],
-
+    "modules-right": [
+    ],
+    "battery": {
+        "states": {
+            "good": 95,
+            "warning": 15,
+            "critical": 7,
+        },
+        "format": "{icon}",
+        "format-charging": "󰉁 {icon}",
+        "format-plugged": "󰂄",
+        "format-alt": "{icon} {capacity}%",
+        "format-icons": ["󰁺", "󰁻", "󰁼", "󰁽", "󰁾", "󰁿", "󰂀", "󰂁", "󰂂", "󰁹"],
+        "tooltip-format": "{capacity}% | {timeTo}"
+    },
+    "bluetooth": {
+        "on-click": "blueman-manager",
+        "format": "",
+        "format-disabled": "󰂲",
+        "format-connected": "",
+        "tooltip-format": "{controller_alias}\t{controller_address}",
+        "tooltip-format-connected": "{controller_alias}\t{controller_address}\n\n{device_enumerate}",
+        "tooltip-format-enumerate-connected": "{device_alias}\t{device_address}"
+    },
+    "clock": {
+        "tooltip-format": "<big>{:%Y %B}</big>\n<tt><small>{calendar}</small></tt>",
+        "format": "{:%H:%M %A %d}",
+        "calendar": {
+            "format": {
+                "today": "<span color='#50fa7b'><b><u>{}</u></b></span>",
+            }
+        }
+    },
+    "cpu": {
+        "interval": 2,
+        "format": " {usage}",
+        "max-length": 10
+    },
+    "custom/dnf": {
+        "format": "{}",
+        "exec": "~/bin/waybar-get-dnf-updates.sh",
+        "interval": 3600, // Every hour
+    },
+    "custom/mail": {
+        "format": "{}",
+        "exec": "~/bin/waybar-email-checker.sh",
+        "interval": 600, // Every 10 minutes,
+        "on-click": "/home/andrei/bin/zoho-mail.AppImage",
+    },
+    "custom/ppd": {
+        "format": "{}",
+        "exec": "~/bin/waybar-power-profile.sh",
+        "interval": 60,
+        "on-click": "~/bin/waybar-power-profile.sh next",
+    },
+    "custom/sync": {
+        "format": "{}",
+        "exec": "~/bin/waybar-file-sync.sh status",
+        "interval": 10,
+        "on-click": "/home/andrei/bin/waybar-file-sync.sh toggle",
+    },
+    "idle_inhibitor": {
+        "format": "{icon}",
+        "format-icons": {
+            "activated": "󰈈",
+            "deactivated": "󰈉"
+        },
+        "tooltip-format-activated": "The system will be prevented from locking/sleeping.",
+        "tooltip-format-deactivated": "Idle inhibitor deactivated."
+    },
+    "mpris": {
+        "format": "{player_icon}",
+        "format-paused": "{status_icon}",
+        "player-icons": {
+            "default": "",
+            "mpv": "🎵"
+        },
+        "status-icons": {
+            "paused": ""
+        },
+    },
+    "network": {
+        "format": "{ifname}",
+        "format-wifi": "{icon}",
+        "format-ethernet": "{ipaddr}/{cidr} 󰊗",
+        "format-icons": ["󰤟", "󰤢", "󰤥", "󰤨"],
+        "format-disconnected": "󰤭",
+        "on-click": "/home/andrei/bin/rofi-wifi-menu.sh",
+        "tooltip-format": "{ifname} via {gwaddr} 󰊗",
+        "tooltip-format-wifi": "{essid} {signalStrength}% ",
+        "tooltip-format-ethernet": "{ifname} ",
+        "tooltip-format-disconnected": "Disconnected",
+        "max-length": 50
+    },
+    "pulseaudio": {
+        "format": "{icon} {volume}%",
+        "format-bluetooth": "{icon} {volume}%",
+        "format-muted": "󰖁",
+        "format-icons": {
+            "headphone": "󰋋",
+            "hands-free": "󰋎",
+            "headset": "󰋋",
+            "default": ["󰕿", "󰖀", "󰕾"],
+            "speaker": "󰓃"
+        },
+        "tooltip-format": "{desc} {volume}%",
+        "scroll-step": 1,
+        "on-click": "pavucontrol",
+        "on-click-right": "/home/andrei/bin/waybar-switch-sink.sh",
+    },
     "sway/workspaces": {
         "disable-scroll": true,
         "all-outputs": true,
@@ -33,89 +136,13 @@
             "3": [],
             "4": [],
             "5": [],
+            "6": [],
         },
     },
-
-    "cpu": {
-        "interval": 3,
-        "format": "{usage}%",
-    },
-
     "temperature": {
-        "thermal-zone": 3,
-        "critical-threshold": 80,
-        "format": "{temperatureC}°",
-    },
-
-    "memory": {
-        "interval": 30,
-        "format": "{used:0.1f}G",
-        "max-length": 10
-    },
-
-    "network": {
-        "interval": 3,
-        "format-wifi": "{bandwidthDownBytes} ⇵ {bandwidthUpBytes}",
-        "format-disconnected": "", //An empty format will hide the module.
-        "tooltip-format": "{ifname} via {gwaddr} 󰊗",
-        "tooltip-format-wifi": "{essid} ({signalStrength}%) ",
-        "tooltip-format-disconnected": "Disconnected",
-        "max-length": 50
-    },
-
-    "idle_inhibitor": {
-        "format": "{icon}",
-        "format-icons": {
-            "activated": "",
-            "deactivated": ""
-        }
-    },
-
-    "tray": {
-        "icon-size": 20,
-        "spacing": 5
-    },
-
-    "clock": {
-        "tooltip-format": "<big>{:%Y %B}</big>\n<tt><small>{calendar}</small></tt>",
-        "format": "{:%a %d/%m %H:%M}",
-        "calendar": {
-            "format": {
-                "today": "<span color='#50fa7b'><b><u>{}</u></b></span>",
-                }
-        }
-    },
-
-
-    "battery": {
-        "states": {
-            "good": 95,
-            "warning": 15,
-            "critical": 7,
-        },
-        "format": "{icon}{capacity}%",
-        "format-charging": " {capacity}%",
-        "format-plugged": " {capacity}%",
-        "format-alt": "{icon}",
-        //"format-icons": ["", "", "", "", ""]
-        "format-icons": ["↯", "↯", "↯", "↯", "↯"]
-    },
-
-    "pulseaudio": {
-        "format": "{icon} {volume}%",
-        "format-bluetooth": "{icon} {volume}%",
-        "format-muted": "Muted",
-        "format-icons": {
-            "headphone": "",
-            "hands-free": "",
-            "headset": "",
-            "phone": "",
-            "portable": "",
-            "car": "",
-            "default": ["", "", ""]
-        },
-        "scroll-step": 1,
-        "on-click": "pavucontrol",
+        "thermal-zone": 2,
+        "critical-threshold": 60,
+        "format": "",
+        "format-critical": "",
     }
 }
-
