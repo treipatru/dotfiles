@@ -85,3 +85,6 @@ require('lspconfig')['pyright'].setup {
 require('lspconfig')['tailwindcss'].setup {
     capabilities = capabilities
 }
+require('lspconfig')['bashls'].setup {
+    capabilities = capabilities
+}
