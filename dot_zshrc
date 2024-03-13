@@ -30,4 +30,11 @@ autoload -U compinit; compinit
 eval "$(fnm env --use-on-cd)"
 eval "$(starship init zsh)"
 eval "$(zoxide init zsh)"
+eval "$(navi widget zsh)"
+
+# zsh-vi-mode plugin overrides ctrl+r shortcut on start but provides
+# this function so we can init thigs after it's loaded
+function zvm_after_init() {
+    eval "$(atuin init zsh --disable-up-arrow)"
+}
 
