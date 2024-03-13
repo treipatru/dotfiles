@@ -1,7 +1,5 @@
 # Default config for sway
-#
 # Copy this to ~/.config/sway/config and edit it to your liking.
-#
 # Read `man 5 sway` for a complete reference.
 
 ### Variables
@@ -13,12 +11,17 @@ set $left h
 set $down j
 set $up k
 set $right l
+
 # Your preferred terminal emulator
 set $term kitty
-set $menu ~/.config/rofi/launchers/type-2/launcher.sh
 
-# for_window [class="Code"] opacity 0.9
-# for_window [app_id=".*"] opacity $opacity
+set $menu rofi -show drun -show-icons \
+    -theme ~/.config/rofi/theme-spotlight.rasi \
+    -config ~/.config/rofi/config.rasi
+
+# Window rules
+for_window [title="VirtualBox - Preferences"] floating enable
+for_window [app_id="blueman-manager" title="Bluetooth Devices"] floating enable
 
 # Your preferred application launcher
 # Note: pass the final command to swaymsg so that the resulting window can be opened
@@ -33,7 +36,7 @@ set $rofi_cmd rofi \
 default_border pixel 2
 default_floating_border none
 gaps outer 1
-gaps inner 5
+gaps inner 3
 
 set {
     $base00   #282a36
@@ -51,13 +54,13 @@ client.urgent             $base04  $base04  $base01
 
 # Hide borders if there's only one window
 smart_borders on
-smart_gaps off
+smart_gaps on
 
 ### Output configuration
 #
 # Default wallpaper (more resolutions are available in /usr/share/backgrounds/sway/)
 # Requires: desktop-backgrounds-compat, swaybg
-output * bg ~/Pictures/wall.webp fill
+output * bg ~/Pictures/wallpapers/wall7.jpg fill
 
 #
 # Example configuration:
@@ -102,6 +105,14 @@ input "type:touchpad" {
     middle_emulation enabled
     natural_scroll   disabled
     tap              enabled
+    dwt              enabled
+}
+
+seat * shortcuts_inhibitor disable
+set $mode_disable_shortcuts "Shortcuts disabled: mod+Shift+z to exit"
+bindsym $mod+Shift+z mode $mode_disable_shortcuts
+mode $mode_disable_shortcuts {
+    bindsym $mod+Shift+z mode "default"
 }
 
 ### Key bindings
@@ -125,6 +136,9 @@ input "type:touchpad" {
 
     # Capture screen
     bindsym $mod+c exec flameshot gui
+
+    # Screens layout
+    bindsym $mod+s exec ~/bin/rofi-kanshi-menu.sh
 
     # Notifications
     bindsym $mod+n exec dunstctl history-pop
@@ -174,22 +188,12 @@ input "type:touchpad" {
     bindsym $mod+$down focus down
     bindsym $mod+$up focus up
     bindsym $mod+$right focus right
-    # Or use $mod+[up|down|left|right]
-    bindsym $mod+Left focus left
-    bindsym $mod+Down focus down
-    bindsym $mod+Up focus up
-    bindsym $mod+Right focus right
 
     # Move the focused window with the same, but add Shift
     bindsym $mod+Shift+$left move left
     bindsym $mod+Shift+$down move down
     bindsym $mod+Shift+$up move up
     bindsym $mod+Shift+$right move right
-    # Ditto, with arrow keys
-    bindsym $mod+Shift+Left move left
-    bindsym $mod+Shift+Down move down
-    bindsym $mod+Shift+Up move up
-    bindsym $mod+Shift+Right move right
 #
 # Workspaces:
 #
@@ -268,3 +272,4 @@ include '$(/usr/libexec/sway/layered-include "/usr/share/sway/config.d/*.conf" "
 exec_always "systemctl --user restart kanshi.service"
 exec dunst
 exec 1password
+exec nextcloud --background
