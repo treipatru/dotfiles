@@ -1,71 +1,85 @@
-require'nvim-treesitter.configs'.setup {
-  -- A list of parser names, or "all"
-  ensure_installed = {
-      "bash",
-      "css",
-      "dockerfile",
-      "git_rebase",
-      "glsl",
-      "graphql",
-      "html",
-      "javascript",
-      "jsdoc",
-      "json",
-      "lua",
-      "regex",
-      "php",
-      "rust",
-      "scss",
-      "svelte",
-      "tsx",
-      "typescript",
-      "vim",
-      "vue",
-      "yaml",
-  },
+-- nvim-treesitter `main` only installs parsers; highlighting is started below with vim.treesitter.start().
+-- Building parsers needs the tree-sitter CLI: `brew install tree-sitter-cli`
+vim.pack.add({
+  { src = "https://github.com/nvim-treesitter/nvim-treesitter", version = "main" },
+  -- Rainbow brackets
+  "https://github.com/HiPhish/rainbow-delimiters.nvim",
+})
 
-  -- Install parsers synchronously (only applied to `ensure_installed`)
-  sync_install = false,
+local ts = require("nvim-treesitter")
 
-  -- Automatically install missing parsers when entering buffer
-  auto_install = true,
+-- Parsers that are always installed (no-op when they already are). Others are installed on first use.
+ts.install({
+  "c",
+  "bash",
+  "css",
+  "dockerfile",
+  "git_rebase",
+  "glsl",
+  "graphql",
+  "html",
+  "javascript",
+  "jsdoc",
+  "json",
+  "lua",
+  "markdown",
+  "markdown_inline",
+  "php",
+  "python",
+  "query",
+  "regex",
+  "rust",
+  "scss",
+  "svelte",
+  "tsx",
+  "typescript",
+  "vim",
+  "vimdoc",
+  "vue",
+  "yaml",
+})
 
-  -- List of parsers to ignore installing (for "all")
-  ignore_install = { "javascript" },
+local max_filesize = 100 * 1024 -- 100 KB
+local available -- parsers nvim-treesitter knows how to install, computed on first use
 
-  ---- If you need to change the installation directory of the parsers (see -> Advanced Setup)
-  -- parser_install_dir = "/some/path/to/store/parsers", -- Remember to run vim.opt.runtimepath:append("/some/path/to/store/parsers")!
+local function start(buf, lang)
+  if vim.api.nvim_buf_is_valid(buf) then
+    pcall(vim.treesitter.start, buf, lang)
+  end
+end
 
-  highlight = {
-    -- `false` will disable the whole extension
-    enable = true,
+vim.api.nvim_create_autocmd("FileType", {
+  group = vim.api.nvim_create_augroup("user_treesitter", { clear = true }),
+  callback = function(ev)
+    local lang = vim.treesitter.language.get_lang(ev.match)
+    if not lang then
+      return
+    end
 
-    -- NOTE: these are the names of the parsers and not the filetype. (for example if you want to
-    -- disable highlighting for the `tex` filetype, you need to include `latex` in this list as this is
-    -- the name of the parser)
-    -- list of language that will be disabled
-    disable = { },
+    -- Disable highlighting for large files
+    local ok, stats = pcall(vim.uv.fs_stat, vim.api.nvim_buf_get_name(ev.buf))
+    if ok and stats and stats.size > max_filesize then
+      return
+    end
 
-    -- Setting this to true will run `:h syntax` and tree-sitter at the same time.
-    -- Set this to `true` if you depend on 'syntax' being enabled (like for indentation).
-    -- Using this option may slow down your editor, and you may see some duplicate highlights.
-    -- Instead of true it can also be a list of languages
-    additional_vim_regex_highlighting = false,
-  },
-  rainbow = { -- rainbow brackets
-    enable = true,
-    extended_mode = true, -- Also highlight non-bracket delimiters like html tags, boolean or table: lang -> boolean
-    max_file_lines = nil, -- Do not enable for files with more than n lines, int
-    -- colors = {}, -- table of hex strings
-    -- termcolors = {} -- table of colour name strings
-  },
-  autotag = {
-    enable = true,
-  },
-  textsubjects = {
-      enable = true,
-      keymaps = {
-          ['<cr>'] = 'textsubjects-smart',
-      }
-  },
-}
+    if vim.treesitter.language.add(lang) then
+      start(ev.buf, lang)
+      return
+    end
+
+    -- Automatically install missing parsers when entering buffer
+    available = available or ts.get_available()
+    if vim.list_contains(available, lang) then
+      ts.install(lang):await(function(err)
+        if not err then
+          vim.schedule(function()
+            start(ev.buf, lang)
+          end)
+        end
+      end)
+    end
+  end,
+})
+
+-- `.` selects the enclosing syntax node, repeat to expand (replaces nvim-treesitter-textsubjects)
+vim.keymap.set({ "x", "o" }, ".", "an", { remap = true, desc = "Select parent node" })

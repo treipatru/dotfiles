@@ -63,13 +63,11 @@
 [merge]
     conflictstyle = diff3
     tool = code
-[push]
-    default = simple
 [pull]
     rebase = true
 [push]
     default = current
-	autoSetupRemote = true
+    autoSetupRemote = true
 [rerere]
-	enabled = true
-	autoUpdate = true
+    enabled = true
+    autoUpdate = true

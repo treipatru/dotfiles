@@ -1,0 +1,2 @@
+--:h ftplugin
+-- setlocal textwidth=70

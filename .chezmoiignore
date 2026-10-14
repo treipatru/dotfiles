@@ -1,3 +1,4 @@
 **/history.txt
 **/history.sqlite*
 **/gtk-3.0/bookmarks
+.config/zsh/plugins.zsh

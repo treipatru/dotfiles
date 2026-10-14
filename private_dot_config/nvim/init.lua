@@ -1,33 +1,33 @@
-vim.g.mapleader = ' '                       -- assign leader key
-require'settings'                           -- base settings
+-- Cache compiled Lua modules for faster startup (lazy.nvim used to do this)
+vim.loader.enable()
 
-require'plugins'                            -- packer plugins
-vim.cmd [[packadd packer.nvim]]             -- init packer
+vim.g.mapleader = " " -- asign leader key
 
--- plugin custom configs
-require'plugins.autopairs'
-require'plugins.editorconfig'
-require'plugins.gitsigns'
-require'plugins.lang-server-config'
-require'plugins.neoclip'
-require'plugins.neoscroll'
-require'plugins.qf'
-require'plugins.snippy'
-require'plugins.statusline'
-require'plugins.telescope'
-require'plugins.theme'
-require'plugins.todo-comments'
-require'plugins.treesitter'
-require'plugins.webdev-icons'
-require'plugins.transparency-settings'
--- plugins defaults
-require'colorizer'.setup()
-require('project_nvim').setup {}
-require('Comment').setup()
-require('leap').add_default_mappings()
-require('neogen').setup {}
-require('nvim-surround').setup({})
-require('which-key').setup {}
--- other configs
-require'utils'                              -- autocmds
-require'keymaps'                            -- keys
+require("config.options")
+require("config.keymaps")
+require("config.autocmds")
+require("config.pack")
+
+-- Each module installs its plugins with vim.pack.add() and configures them.
+-- There is no dependency resolution, so order matters where noted.
+for _, name in ipairs({
+  "visual", -- colorscheme and icons first, other UI plugins build on them
+  "treesitter",
+  "lsp",
+  "blink",
+  "conform",
+  "editor", -- before telescope: provides the `projects` extension
+  "telescope",
+  "gitsigns",
+  "which-key",
+  "autopairs",
+  "hop",
+  "qf",
+  "text-objects",
+  "herdr",
+}) do
+  local ok, err = pcall(require, "plugins." .. name)
+  if not ok then
+    vim.notify(("Error loading plugins.%s:\n%s"):format(name, err), vim.log.levels.ERROR)
+  end
+end

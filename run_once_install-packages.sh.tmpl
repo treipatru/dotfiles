@@ -25,7 +25,6 @@ sudo dnf install --assumeyes \
     bat \
     btop \
     curl \
-    dunst \
     eza \
     fd-find \
     file-roller \
@@ -33,15 +32,12 @@ sudo dnf install --assumeyes \
     flameshot \
     fzf \
     gcc \
-    gcc \
     gcc-c++ \
     git \
     git-delta \
     google-noto-emoji-fonts \
-    kanshi \
     kernel-devel \
     kernel-headers \
-    kitty \
     libreoffice \
     meld \
     neovim \
@@ -51,10 +47,23 @@ sudo dnf install --assumeyes \
     openssl-devel \
     python3 \
     ripgrep \
-    rofi-wayland \
     tldr \
+    tmux \
     zsh \
     zoxide
+
+# Ghostty isn't in the Fedora repos, install it from the community COPR
+printf "\n>>> Installing ghostty\n"
+sudo dnf copr enable --assumeyes scottames/ghostty
+sudo dnf install --assumeyes ghostty
+
+# Zsh plugin manager, sourced from ~/.antidote by .zshrc
+if [ -d ~/.antidote ]; then
+    printf "\n>>> Antidote is already installed, skipping.\n"
+else
+    printf "\n>>> Installing antidote\n"
+    git clone --depth=1 https://github.com/mattmc3/antidote.git ~/.antidote
+fi
 
 # Install rust
 if command -v rustc &> /dev/null; then
@@ -73,14 +82,14 @@ printf "\n>>> Installing cargo packages\n"
 cargo install cargo-update
 # Job manager
 cargo install --locked pueue
-# Shell
-cargo install nu
 # Node version manager
 cargo install fnm
 # Terminal prompt
 cargo install starship --locked
-# Update manager
-cargo install cargo-update
+# Shell history
+cargo install atuin
+# Builds treesitter parsers for neovim
+cargo install --locked tree-sitter-cli
 
 printf "\n>>> Installing latest node \n"
 fnm install --latest

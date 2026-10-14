@@ -22,19 +22,34 @@ source $ZSH_CFG/aliases
 source $ZSH_CFG/exports
 source $ZSH_CFG/fzf.zsh
 
-# Plugins
-source $ZSH_CFG/zplug
+# Plugins: listed in plugins.txt, bundled by antidote into plugins.zsh whenever the list changes
+zstyle ':plugin:ez-compinit' 'use-cache' 'yes' # reuse the completion dump for 20h
+# Installed by Homebrew if available (HOMEBREW_PREFIX is set in .zprofile), otherwise cloned into
+# ~/.antidote (see run_once_install-packages.sh)
+if [ -n "$HOMEBREW_PREFIX" ] && [ -f "$HOMEBREW_PREFIX/opt/antidote/share/antidote/antidote.zsh" ]; then
+    source "$HOMEBREW_PREFIX/opt/antidote/share/antidote/antidote.zsh"
+else
+    source ~/.antidote/antidote.zsh
+fi
+antidote load $ZSH_CFG/plugins.txt $ZSH_CFG/plugins.zsh
+bindkey '^ ' autosuggest-accept
 
 # Startup
-autoload -U compinit; compinit
-eval "$(fnm env --use-on-cd)"
 eval "$(starship init zsh)"
 eval "$(zoxide init zsh)"
-eval "$(navi widget zsh)"
+# Node: switches to the version in .nvmrc/.node-version on cd (also in parent dirs)
+eval "$(fnm env --use-on-cd --version-file-strategy=recursive --shell zsh)"
 
 # zsh-vi-mode plugin overrides ctrl+r shortcut on start but provides
 # this function so we can init thigs after it's loaded
 function zvm_after_init() {
+    # atuin's own installer puts it in ~/.atuin/bin, cargo installs it on the PATH already
+    if [ -f "$HOME/.atuin/bin/env" ]; then . "$HOME/.atuin/bin/env"; fi
     eval "$(atuin init zsh --disable-up-arrow)"
 }
 
+# Shell command completion for gcloud (its bin/ is added to PATH in exports)
+if [ -f "$HOME/opt/google-cloud-sdk/completion.zsh.inc" ]; then . "$HOME/opt/google-cloud-sdk/completion.zsh.inc"; fi
+
+# Adds ~/.local/bin to PATH (created by the uv installer)
+if [ -f "$HOME/.local/bin/env" ]; then . "$HOME/.local/bin/env"; fi

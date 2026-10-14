@@ -1,0 +1,18 @@
+theme = GitHub Dark High Contrast
+font-family = MonoLisa
+font-style = Light
+font-size = 14
+
+# Bold text at Regular weight instead of Bold (carried over from WezTerm's font_rules)
+font-variation-bold = wght=400
+font-variation-bold-italic = wght=400
+
+# Left Option sends Alt (WezTerm's default); right Option still types special characters
+macos-option-as-alt = left
+
+# ctrl+c copies Ghostty's own selection (Karabiner passes ctrl+c through to terminals);
+# with nothing selected it still sends ^C. Clearing the selection after the copy makes
+# the next ctrl+c an interrupt again
+keybind = performable:ctrl+c=copy_to_clipboard
+selection-clear-on-copy = true
+

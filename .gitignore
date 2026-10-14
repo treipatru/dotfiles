@@ -4,5 +4,3 @@
 
 history.txt
 history.sqlite*
-
-private_dot_config/nvim/plugin/**/*

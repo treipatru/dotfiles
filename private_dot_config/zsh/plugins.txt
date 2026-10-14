@@ -1,0 +1,12 @@
+# zsh plugins, loaded in this order by antidote (see ~/.zshrc). Update them with `antidote update`.
+
+# Runs compinit once, after all plugins have added their completions
+mattmc3/ez-compinit
+zsh-users/zsh-completions kind:fpath path:src
+# Needs its binary downloaded once: run ./zplug.zsh in `antidote path g-plane/pnpm-shell-completion`
+g-plane/pnpm-shell-completion
+
+jeffreytse/zsh-vi-mode
+zsh-users/zsh-autosuggestions
+# Last, so it highlights with the widgets the other plugins define
+zsh-users/zsh-syntax-highlighting
