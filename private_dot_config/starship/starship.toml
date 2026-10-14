@@ -14,6 +14,11 @@ error_symbol = '☠️ '
 format = "[$duration]($style) "
 style = "yellow"
 
+[directory]
+truncation_length = 1
+truncation_symbol = '…/'
+fish_style_pwd_dir_length = 3
+
 [buf]
 format = "[$symbol]($style)"
 

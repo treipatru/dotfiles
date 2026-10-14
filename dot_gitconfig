@@ -48,6 +48,7 @@
 [delta "interactive"]
     keep-plus-minus-markers = false
 [diff]
+    algorithm = histogram
     colorMoved = default
     wordRegex = .
 [format]
@@ -61,7 +62,7 @@
 [log]
     date = relative
 [merge]
-    conflictstyle = diff3
+    conflictstyle = zdiff3
     tool = code
 [pull]
     rebase = true

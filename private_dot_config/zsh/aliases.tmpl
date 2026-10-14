@@ -5,12 +5,19 @@ gcol() {
 }
 
 alias cat="bat"
+alias cz="chezmoi"
 alias g="git"
 alias gsw="gcol"
 alias l="eza"
+alias la="eza -la"
 alias n="nnn"
 alias pn="pnpm"
 alias t="tmux"
 alias ta="tmux attach"
 alias v="nvim"
 alias lg="lazygit"
+{{- if eq .chezmoi.os "linux" }}
+
+alias protontricks='flatpak run com.github.Matoking.protontricks'
+alias protontricks-launch='flatpak run --command=protontricks-launch com.github.Matoking.protontricks'
+{{- end }}

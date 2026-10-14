@@ -9,8 +9,12 @@ export HISTORY_IGNORE="(cd|g|gs|l|ls|man|mkdir|mv|rm|v|which)(| *)"
 # PATHs: (N) skips directories that don't exist, so the same list works on every machine
 path+=(
     $HOME/bin(N)
+    $HOME/.local/bin(N)
+    $HOME/go/bin(N)
+    $HOME/.opencode/bin(N)
     $HOME/opt/google-cloud-sdk/bin(N)
 )
+export RIPGREP_CONFIG_PATH="$HOME/.config/rg/ripgreprc"
 export STARSHIP_CONFIG=~/.config/starship/starship.toml
 
 # NNN
@@ -18,3 +22,15 @@ export NNN_BMS="d:$HOME/Downloads;"
 export NNN_OPTS="A" # don't auto-enter a directory when the filter leaves only one match
 
 export PAGER="bat --style=plain"
+{{- if eq .chezmoi.os "linux" }}
+
+# Linux only
+export SSH_AUTH_SOCK=~/.1password/agent.sock
+export ELECTRON_OZONE_PLATFORM_HINT="wayland"
+# pnpm's standalone installer keeps its binary and global packages here
+export PNPM_HOME="$HOME/.local/share/pnpm"
+path=($PNPM_HOME(N) $path)
+# nnn plugins, installed with nnn's getplugs into ~/.config/nnn/plugins
+export NNN_FIFO="/tmp/nnn.fifo"
+export NNN_PLUG="f:finder;o:fzopen;p:preview-tui;s:suedit;z:autojump;"
+{{- end }}

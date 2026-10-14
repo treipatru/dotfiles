@@ -46,6 +46,10 @@ function zvm_after_init() {
     # atuin's own installer puts it in ~/.atuin/bin, cargo installs it on the PATH already
     if [ -f "$HOME/.atuin/bin/env" ]; then . "$HOME/.atuin/bin/env"; fi
     eval "$(atuin init zsh --disable-up-arrow)"
+{{- if eq .chezmoi.os "linux" }}
+    # Cheatsheet widget (ctrl+g)
+    eval "$(navi widget zsh)"
+{{- end }}
 }
 
 # Shell command completion for gcloud (its bin/ is added to PATH in exports)
